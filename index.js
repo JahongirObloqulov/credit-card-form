@@ -1,3 +1,5 @@
+let cardNumber = document.querySelector(".card-number-input");
+let cardNumberText = document.querySelector(".card-number-box");
 document.querySelector(".card-number-input").oninput = () => {
   document.querySelector(".card-number-box").innerText =
     document.querySelector(".card-number-input").value;
@@ -36,3 +38,39 @@ document.querySelector(".cvv-input").oninput = () => {
   document.querySelector(".cvv-box").innerText =
     document.querySelector(".cvv-input").value;
 };
+
+cardNumber.addEventListener("keyup", (e) => {
+  if (!e.target.value) {
+    cardNumberText.innerText = "#### #### #### ####";
+  } else {
+    const valuesOfInput = e.target.value.replaceAll(" ", "");
+
+    if (e.target.value.length > 14) {
+      e.target.value = valuesOfInput.replace(
+        /(\d{4})(\d{4})(\d{4})(\d{0,4})/,
+        "$1 $2 $3 $4"
+      );
+      cardNumberText.innerHTML = valuesOfInput.replace(
+        /(\d{4})(\d{4})(\d{4})(\d{0,4})/,
+        "$1 $2 $3 $4"
+      );
+    } else if (e.target.value.length > 9) {
+      e.target.value = valuesOfInput.replace(
+        /(\d{4})(\d{4})(\d{0,4})/,
+        "$1 $2 $3"
+      );
+      cardNumberText.innerHTML = valuesOfInput.replace(
+        /(\d{4})(\d{4})(\d{0,4})/,
+        "$1 $2 $3"
+      );
+    } else if (e.target.value.length > 4) {
+      e.target.value = valuesOfInput.replace(/(\d{4})(\d{0,4})/, "$1 $2");
+      cardNumberText.innerHTML = valuesOfInput.replace(
+        /(\d{4})(\d{0,4})/,
+        "$1 $2"
+      );
+    } else {
+      cardNumberText.innerHTML = valuesOfInput;
+    }
+  }
+});
